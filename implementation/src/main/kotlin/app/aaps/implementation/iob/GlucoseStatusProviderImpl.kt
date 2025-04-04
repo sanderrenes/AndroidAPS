@@ -85,10 +85,19 @@ class GlucoseStatusProviderImpl @Inject constructor(
                 //     now.value = average(nowValueList)
                 //     // short_deltas are calculated from everything ~5-15 minutes ago
                 // } else
-                if (2.5 < minutesAgo && minutesAgo < 17.5) {
+                // 
+                // FSL2 + juggluco report every 2 minutes,
+                // this can cause issues with empty lastDeltas ArrayList
+                // by stretching the buckets to contain the first measure by defintion (2 minutes ago)
+                // an extra measurement was added to the shortDeltas and lastDeltas reducing this chance
+            
+                if (1.5 < minutesAgo && minutesAgo <= 17.5) {
                     shortDeltas.add(avgDel)
                     // last_deltas are calculated from everything ~5 minutes ago
-                    if (2.5 < minutesAgo && minutesAgo < 7.5) {
+                    // note that the lower bound of this bucket is determined by the 
+                    // parent if statement just above
+                    // 
+                    if ( minutesAgo <= 7.5) {
                         lastDeltas.add(avgDel)
                     }
                     // long_deltas are calculated from everything ~20-40 minutes ago
