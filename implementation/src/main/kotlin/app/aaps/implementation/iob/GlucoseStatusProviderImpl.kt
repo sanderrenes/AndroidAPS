@@ -114,7 +114,7 @@ class GlucoseStatusProviderImpl @Inject constructor(
         var minutesdur = 0L
         var n = 1
         for (i in 1 until sizeRecords) {
-            if (data[i].value > 39 && !data[i].filledGap) {
+            if (data[i].value > 39 ) {//if (data[i].value > 39 && !data[i].filledGap) { // filledGap is used to indicate a recalculation to get to the 5-min interval used in calculations. If you are not on the 5 minute interval of measurement, you do not get deltas with this constraint
                 n += 1
                 val then = data[i]
                 val thenDate: Long = then.timestamp
